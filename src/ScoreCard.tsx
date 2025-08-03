@@ -39,7 +39,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ game }) => {
   }
 
   const gameStatus = game.status.statusCode;
-  const showScore = gameStatus === "I" || gameStatus === "F";
+  const showScore = gameStatus === "I" || gameStatus === "F" || gameStatus === "O";
 
   return (
     <Card.Root flexDirection="row" size="sm" mr={4} mb={4}>
