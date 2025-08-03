@@ -31,8 +31,12 @@ const TeamRow = ({
 const ScoreCard: React.FC<ScoreCardProps> = ({ game }) => {
   const { teams } = useContext(TeamContext) || {};
 
-  const awayTeam = teams?.find(t => t.id === game.teams.away.team.id) as Team;
-  const homeTeam = teams?.find(t => t.id === game.teams.home.team.id) as Team;
+  const awayTeam = teams?.find(t => t.id === game.teams.away.team.id);
+  const homeTeam = teams?.find(t => t.id === game.teams.home.team.id);
+
+  if (!awayTeam || !homeTeam) {
+    return null;
+  }
 
   const gameStatus = game.status.statusCode;
   const showScore = gameStatus === "I" || gameStatus === "F";

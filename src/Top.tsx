@@ -4,6 +4,7 @@ import ScoreCard from "./ScoreCard";
 import { getSchedule, getTeams } from "./mlbApi/mlbApi";
 import { TeamProvider } from "./mlbApi/TeamContext";
 import type { Game, Schedule, Team } from "./mlbApi/types";
+import { toaster } from "./components/ui/toaster";
 
 const Top: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>([]);
@@ -14,11 +15,23 @@ const Top: React.FC = () => {
       .then(t => {
         setTeams(t);
       })
-      .catch(r => console.error(r));
+      .catch(e => { 
+        console.error(e);
+        toaster.create({
+          title: 'Error loading teams',
+          type: 'error'
+        });
+      });
 
     getSchedule()
       .then(s => setSchedule(s))
-      .catch(e => console.error(e));
+      .catch(e => { 
+        console.error(e);
+        toaster.create({
+          title: 'Error loading games',
+          type: 'error'
+        });
+      });
   }, []);
 
   let games: Game[] = [];
@@ -36,7 +49,7 @@ const Top: React.FC = () => {
     <TeamProvider teams={teams}>
       <Box p="4" width="3xl">
         <SimpleGrid columns={[2]} columnGap={'1px'}>
-        { games && games.map(g => <ScoreCard game={g} key={g.gamePk}/>) }
+        { teams && games && games.map(g => <ScoreCard game={g} key={g.gamePk}/>) }
         </SimpleGrid>
       </Box>
     </TeamProvider>
