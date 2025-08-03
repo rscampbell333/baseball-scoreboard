@@ -84,6 +84,125 @@ export interface Schedule {
   dates: Date[];
 }
 
+export interface Cut {
+  aspectRatio: string;
+  width: string;
+  height: string;
+  type: string;
+  src: string;
+  at2x: string;
+  at3x: string;
+}
+
+export interface Image {
+  title: string;
+  altText: string;
+  cuts: Record<string, Cut>;
+}
+
+export interface DeviceProperty {
+  type: string;
+  id: string;
+  timestamp: string;
+  binaryFile: string;
+  url: string;
+  title?: string;
+  image?: Image;
+}
+
+export interface Container {
+  height?: string;
+  width?: string;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+}
+
+export interface Palette {
+  pageContainerBackgroundColor: string;
+  pageContainerBorderColor: string;
+  headerMastheadBackgroundColor: string;
+  headerMastheadTextColor: string;
+  headerNavigationBackgroundColor: string;
+  headerNavigationBorderColor: string;
+  headerNavigationTextColorHover: string;
+  headerNavigationTextColor: string;
+  footerTitleColor: string;
+  footerTextColor: string;
+  footerBackgroundColor: string;
+  footerBorderColor: string;
+  footerLinkColor: string;
+  footerLinkColorHover: string;
+  footerLinkColorActive: string;
+  buttonPrimaryBackgroundColor: string;
+  buttonPrimaryBackgroundColorHover: string;
+  buttonPrimaryTextColor: string;
+  buttonPrimaryTextColorHover: string;
+  buttonSpotlightBackgroundColor: string;
+  buttonSpotlightBackgroundColorHover: string;
+  buttonSpotlightTextColor: string;
+  buttonSpotlightTextColorHover: string;
+  tableHeaderBackgroundColor: string;
+  tableRowBackgroundColor: string;
+  tableTextColor: string;
+  organismSectionTitleColor: string;
+  organismTitleColor: string;
+  organismTextColor: string;
+  organismTagBackgroundColor: string;
+  organismTagTextColor: string;
+  organismBackgroundColor: string;
+  organismBorderColor: string;
+  organismLinkColor: string;
+  organismLinkColorHover: string;
+  organismLinkTextDecoration: string,
+  organismLinkColorActive: string;
+  organismScrimTitleColor: string;
+  organismScrimTextColor: string;
+  organismScrimTagColor: string;
+  organismScrimBackgroundColor: string;
+  organismScrimBackgroundColorHover: string;
+  organismScrimBorderColor: string;
+  organismScrimLinkColor: string;
+  organismScrimLinkColorHover: string;
+  organismContentHeadingSecondaryBorderColor: string;
+  organismContentHeadingPrimaryBorderColor: string;
+  organismSidekickBackgroundColor: string;
+  organismJumbotronTitleColor: string
+}
+
+export interface Style {
+  organismLogoVersion: string;
+  organismLogoStyle: string;
+  headerMastheadLogoVersion: string;
+  headerMastheadLogoStyle: string;
+  headerMastheadLogoContainer: Container;
+  headerMastheadTaglineContainer: Container;
+  footerLogoVersion: string;
+  footLogoStyle: string;
+  headlineTextTrasform: string;
+  headlineFontFamily: string;
+  headlineFontFamilySizeMultiplier: number;
+  bodyBackgroundColor: string;
+  palette: string;
+  basePalette: Palette;
+  darkPalette: Palette;
+}
+
+export interface DeviceProperties {
+  urlLogo: DeviceProperty;
+  headerPrimaryLogo: DeviceProperty;
+  favicon: DeviceProperty;
+  headerMastheadTagline: DeviceProperty;
+  navigationMastheadSponsorImage: DeviceProperty;
+  bodyBackgroundSkinWiredURL: string;
+  bodyBackgroundSkinTotal: number;
+  bodyBackgroundSkin1: DeviceProperty;
+  organismHeadlineFont: DeviceProperty;
+
+
+}
+
 export interface Team {
   springLeague: {
     id: number;
@@ -132,4 +251,5 @@ export interface Team {
   active: boolean;
   previousGameSchedule?: Schedule;
   nextGameSchedule?: Schedule;
+  deviceProperties?: DeviceProperties;
 };

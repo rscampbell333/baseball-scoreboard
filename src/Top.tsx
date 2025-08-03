@@ -10,7 +10,7 @@ const Top: React.FC = () => {
   const [schedule, setSchedule] = useState<Schedule>();
 
   useEffect(() => {
-    getTeams()
+    getTeams(['deviceProperties'])
       .then(t => {
         setTeams(t);
       })

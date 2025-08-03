@@ -1,4 +1,4 @@
-import { Box, Card, Separator, Text } from "@chakra-ui/react";
+import { Box, Card, Image, Separator, Text } from "@chakra-ui/react";
 import { TeamContext } from "./mlbApi/TeamContext";
 import { useContext } from "react";
 import type { Game, GameTeam, Team } from "./mlbApi/types";
@@ -16,8 +16,9 @@ const TeamRow = ({
   gameTeamInfo: GameTeam,
   showScore: boolean,
 }) => (
-  <Box flexDirection="row" display="flex">
-    <Box width={'15em'}>
+  <Box flexDirection="row" display="flex" pt={2} pb={2}>
+    <Image src={team.deviceProperties?.favicon.image?.cuts['256x256']?.src} height="3em" mr={1}/>
+    <Box width="15em" display="flex" flexDirection="column" justifyContent="center">
       <Text>{team.name}</Text>
       <Text fontSize="xs">{gameTeamInfo.leagueRecord.wins}-{gameTeamInfo.leagueRecord.losses}</Text>
     </Box>
@@ -37,10 +38,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ game }) => {
   const showScore = gameStatus === "I" || gameStatus === "F";
 
   return (
-    <Card.Root flexDirection="row" maxW="20em" mr={4} mb={4}>
-      {/* <Card.Header>
-        <Text>Bases</Text>
-      </Card.Header> */}
+    <Card.Root flexDirection="row" size="sm" mr={4} mb={4}>
       <Card.Body>
         <TeamRow team={awayTeam} gameTeamInfo={game.teams.away} showScore={showScore}/>
         <Separator />

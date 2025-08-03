@@ -10,10 +10,11 @@ const endpoints = {
   schedule: '/schedule'
 };
 
-export const getTeams = async () => {
+export const getTeams = async (hydrate?: string[]) => {
   const response = await axiosInstance.get<{teams: Team[]}>(endpoints.teams, {
     params: {
-      sportId: SPORT_ID_MLB
+      sportId: SPORT_ID_MLB,
+      hydrate: hydrate?.join(',')
     }
   });
   return response.data.teams;
