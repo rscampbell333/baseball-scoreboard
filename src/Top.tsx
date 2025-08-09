@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
 import ScoreCard from "./ScoreCard";
 import { getSchedule, getTeams } from "./mlbApi/mlbApi";
 import { TeamProvider } from "./mlbApi/TeamContext";
@@ -47,11 +47,11 @@ const Top: React.FC = () => {
 
   return (
     <TeamProvider teams={teams}>
-      <Box p="4" width="3xl">
-        <SimpleGrid columns={[2]} columnGap={'1px'}>
-        { teams && games && games.map(g => <ScoreCard game={g} key={g.gamePk}/>) }
+      <Flex p="4" width={{ base: '100%', md: "3xl" }} justifyContent={{ base: 'center', md: 'left' }}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} columnGap={'1px'}>
+          { teams && games && games.map(g => <ScoreCard game={g} key={g.gamePk}/>) }
         </SimpleGrid>
-      </Box>
+      </Flex>
     </TeamProvider>
   );
 };

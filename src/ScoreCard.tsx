@@ -42,7 +42,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ game }) => {
   const showScore = gameStatus === "I" || gameStatus === "F" || gameStatus === "O";
 
   return (
-    <Card.Root flexDirection="row" size="sm" mr={4} mb={4}>
+    <Card.Root flexDirection="row" size="sm" maxWidth="20em" mr={4} mb={4}>
       <Card.Body>
         <TeamRow team={awayTeam} gameTeamInfo={game.teams.away} showScore={showScore}/>
         <Separator />
