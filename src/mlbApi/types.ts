@@ -30,6 +30,66 @@ export interface Venue {
   link: string;
 }
 
+export interface LineScorePlayer {
+  id: number;
+  fullName: string;
+  link: string;
+}
+
+export interface LineScoreTeam {
+  pitcher?: LineScorePlayer;
+  catcher?: LineScorePlayer;
+  first?: LineScorePlayer;
+  second?: LineScorePlayer;
+  third?: LineScorePlayer;
+  shortstop?: LineScorePlayer;
+  left?: LineScorePlayer;
+  center?: LineScorePlayer;
+  right?: LineScorePlayer;
+  batter?: LineScorePlayer;
+  onDeck?: LineScorePlayer;
+  inHole?: LineScorePlayer
+  battingOrder: number;
+  team: {
+    id: number;
+    name: string;
+    link: string;
+  }
+}
+
+export interface Totals {
+  runs: number;
+  hits: number;
+  errors: number;
+  leftOnBase: number;
+}
+
+export interface Inning {
+  num: number;
+  ordinalnum: string;
+  home: Totals;
+  away: Totals;
+  teams: {
+    home: Totals;
+    away: Totals;
+  },
+  defense: LineScoreTeam;
+  offense: LineScoreTeam;
+}
+
+export interface LineScore {
+  currentInning?: number;
+  currentInningOrdinal: string;
+  inningState: string;
+  inningHalf: "Top" | "Bottom";
+  isTopInning: boolean;
+  scheduledInning: number;
+  innings: Array<Inning>;
+  balls: number;
+  strikes: number;
+  outs: number;
+}
+
 export interface Game {
   gamePk: number;
   gameGuid: string;
@@ -65,6 +125,7 @@ export interface Game {
   recordSource: string;
   ifNecessary: string;
   ifNecessaryDescription: string;
+  linescore?: LineScore;
 }
 
 export interface Date {

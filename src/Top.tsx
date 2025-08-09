@@ -23,7 +23,7 @@ const Top: React.FC = () => {
         });
       });
 
-    getSchedule()
+    getSchedule({ hydrate: ['linescore']})
       .then(s => setSchedule(s))
       .catch(e => { 
         console.error(e);

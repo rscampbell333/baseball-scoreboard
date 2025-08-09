@@ -2,6 +2,7 @@ import { Box, Card, Image, Separator, Text } from "@chakra-ui/react";
 import { TeamContext } from "./mlbApi/TeamContext";
 import { useContext } from "react";
 import type { Game, GameTeam, Team } from "./mlbApi/types";
+import GameState from "./GameState";
 
 export interface ScoreCardProps {
   game: Game;
@@ -44,6 +45,12 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ game }) => {
   return (
     <Card.Root flexDirection="row" size="sm" maxWidth="20em" mr={4} mb={4}>
       <Card.Body>
+        { game.linescore && <GameState
+          time={game.gameDate}
+          linescore={game.linescore}
+          status={game.status}
+        /> }
+        { game.linescore && <Separator />}
         <TeamRow team={awayTeam} gameTeamInfo={game.teams.away} showScore={showScore}/>
         <Separator />
         <TeamRow team={homeTeam} gameTeamInfo={game.teams.home} showScore={showScore}/>
