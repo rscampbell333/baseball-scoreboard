@@ -48,7 +48,7 @@ const Top: React.FC = () => {
   return (
     <TeamProvider teams={teams}>
       <Flex p="4" width={{ base: '100%', md: "3xl" }} justifyContent={{ base: 'center', md: 'left' }}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} columnGap={'1px'}>
+        <SimpleGrid columns={2}>
           { teams && games && games.map(g => <ScoreCard game={g} key={g.gamePk}/>) }
         </SimpleGrid>
       </Flex>

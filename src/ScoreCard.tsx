@@ -1,4 +1,4 @@
-import { Box, Card, Image, Separator, Text } from "@chakra-ui/react";
+import { Box, Flex, Separator, Text } from "@chakra-ui/react";
 import { TeamContext } from "./mlbApi/TeamContext";
 import { useContext } from "react";
 import type { Game, GameTeam, Team } from "./mlbApi/types";
@@ -18,13 +18,12 @@ const TeamRow = ({
   showScore: boolean,
 }) => (
   <Box flexDirection="row" display="flex" pt={2} pb={2}>
-    <Image src={team.deviceProperties?.favicon.image?.cuts['256x256']?.src} height="3em" mr={1}/>
     <Box width="15em" display="flex" flexDirection="column" justifyContent="center">
       <Text>{team.name}</Text>
       <Text fontSize="xs">{gameTeamInfo.leagueRecord.wins}-{gameTeamInfo.leagueRecord.losses}</Text>
     </Box>
     <Box pr={2}>
-      { showScore && <Text fontWeight="bold" fontSize="3xl">{gameTeamInfo.score}</Text> }
+      { showScore && <Text fontWeight="bold" fontSize="2xl">{gameTeamInfo.score}</Text> }
     </Box>
   </Box>
 )
@@ -43,19 +42,17 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ game }) => {
   const showScore = gameStatus === "I" || gameStatus === "F" || gameStatus === "O";
 
   return (
-    <Card.Root flexDirection="row" size="sm" maxWidth="20em" mr={4} mb={4}>
-      <Card.Body>
-        { game.linescore && <GameState
-          time={game.gameDate}
-          linescore={game.linescore}
-          status={game.status}
-        /> }
-        { game.linescore && <Separator />}
-        <TeamRow team={awayTeam} gameTeamInfo={game.teams.away} showScore={showScore}/>
-        <Separator />
-        <TeamRow team={homeTeam} gameTeamInfo={game.teams.home} showScore={showScore}/>
-      </Card.Body>
-    </Card.Root>
+    <Flex direction="column" maxWidth="15em" mr={4} mb={4} fontSize="sm">
+    { game.linescore && <GameState
+      time={game.gameDate}
+      linescore={game.linescore}
+      status={game.status}
+    /> }
+    { game.linescore && <Separator />}
+    <TeamRow team={awayTeam} gameTeamInfo={game.teams.away} showScore={showScore}/>
+    <Separator variant="dotted" size="md" />
+    <TeamRow team={homeTeam} gameTeamInfo={game.teams.home} showScore={showScore}/>
+    </Flex>
   );
 }
 
