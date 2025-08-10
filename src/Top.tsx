@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import ScoreCard from "./ScoreCard";
 import { getSchedule, getTeams } from "./mlbApi/mlbApi";
 import { TeamProvider } from "./mlbApi/TeamContext";
 import type { Game, Schedule, Team } from "./mlbApi/types";
 import { toaster } from "./components/ui/toaster";
+import { useIntervalAsync } from "./hooks/useInterval";
 
 const Top: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>([]);
-  const [schedule, setSchedule] = useState<Schedule>();
+
+  const loadSchedules = useCallback(() => getSchedule({ hydrate: ['linescore']}), []);
+  const schedule = useIntervalAsync<Schedule>(loadSchedules, 15000);
 
   useEffect(() => {
     getTeams(['deviceProperties'])
@@ -19,16 +22,6 @@ const Top: React.FC = () => {
         console.error(e);
         toaster.create({
           title: 'Error loading teams',
-          type: 'error'
-        });
-      });
-
-    getSchedule({ hydrate: ['linescore']})
-      .then(s => setSchedule(s))
-      .catch(e => { 
-        console.error(e);
-        toaster.create({
-          title: 'Error loading games',
           type: 'error'
         });
       });
