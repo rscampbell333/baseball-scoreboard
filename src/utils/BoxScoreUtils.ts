@@ -23,6 +23,6 @@ export const getTeamLineScores = (linescore: LineScore): TeamLineScores => {
     home: {
       runsByInning: homeRunsByInning,
       ...linescore.teams.home,
-    }
+    },
   };
 }

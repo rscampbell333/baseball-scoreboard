@@ -15,8 +15,8 @@ export const getTeams = async (hydrate?: string[]) => {
   const response = await axiosInstance.get<{teams: Team[]}>(endpoints.teams, {
     params: {
       sportId: SPORT_ID_MLB,
-      hydrate: hydrate?.join(',')
-    }
+      hydrate: hydrate?.join(','),
+    },
   });
   return response.data.teams;
 }
@@ -24,7 +24,7 @@ export const getTeams = async (hydrate?: string[]) => {
 export const getSchedule = async ({
   startDate,
   endDate,
-  hydrate
+  hydrate,
 }: {
   startDate?: string,
   endDate?: string,
@@ -34,7 +34,7 @@ export const getSchedule = async ({
     sportId: SPORT_ID_MLB,
     startDate,
     endDate,
-    hydrate: hydrate?.join(',')
+    hydrate: hydrate?.join(','),
   };
 
   const response = await axiosInstance.get<Schedule>(endpoints.schedule, { params });

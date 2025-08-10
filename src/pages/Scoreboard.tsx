@@ -23,7 +23,7 @@ const Scoreboard: React.FC = () => {
         console.error(e);
         toaster.create({
           title: 'Error loading teams',
-          type: 'error'
+          type: 'error',
         });
       });
   }, []);
@@ -47,7 +47,7 @@ const Scoreboard: React.FC = () => {
             <Link to={`/games/${g.gamePk}`} key={g.gamePk}>
               <ScoreCard game={g}/>
             </Link>
-            ) 
+            ), 
           )}
         </SimpleGrid>
       </Flex>
