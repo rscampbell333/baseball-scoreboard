@@ -88,6 +88,10 @@ export interface LineScore {
   balls: number;
   strikes: number;
   outs: number;
+  teams: {
+    home: Totals;
+    away: Totals;
+  } 
 }
 
 export interface Game {

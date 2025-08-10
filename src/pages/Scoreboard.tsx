@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
-import ScoreCard from "./ScoreCard";
-import { getSchedule, getTeams } from "./mlbApi/mlbApi";
-import { TeamProvider } from "./mlbApi/TeamContext";
-import type { Game, Schedule, Team } from "./mlbApi/types";
-import { toaster } from "./components/ui/toaster";
-import { useIntervalAsync } from "./hooks/useInterval";
+import ScoreCard from "../ScoreCard";
+import { getSchedule, getTeams } from "../mlbApi/mlbApi";
+import { TeamProvider } from "../mlbApi/TeamContext";
+import type { Game, Schedule, Team } from "../mlbApi/types";
+import { toaster } from "../components/ui/toaster";
+import { useIntervalAsync } from "../hooks/useInterval";
+import { Link } from "react-router";
 
-const Top: React.FC = () => {
+const Scoreboard: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>([]);
 
   const loadSchedules = useCallback(() => getSchedule({ hydrate: ['linescore']}), []);
@@ -42,11 +43,16 @@ const Top: React.FC = () => {
     <TeamProvider teams={teams}>
       <Flex p="4" width={{ base: '100%', md: "3xl" }} justifyContent={{ base: 'center', md: 'left' }}>
         <SimpleGrid columns={2}>
-          { teams && games && games.map(g => <ScoreCard game={g} key={g.gamePk}/>) }
+          { teams && games && games.map(g => (
+            <Link to={`/games/${g.gamePk}`} key={g.gamePk}>
+              <ScoreCard game={g}/>
+            </Link>
+            ) 
+          )}
         </SimpleGrid>
       </Flex>
     </TeamProvider>
   );
 };
 
-export default Top;
+export default Scoreboard;

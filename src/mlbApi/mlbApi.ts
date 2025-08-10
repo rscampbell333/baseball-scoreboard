@@ -3,11 +3,12 @@ import { type Schedule, type Team } from "./types";
 
 const SPORT_ID_MLB = 1;
 
-const baseURL = 'https://statsapi.mlb.com/api/v1';
+const baseURL = 'https://statsapi.mlb.com/api';
 const axiosInstance = axios.create({ baseURL })
 const endpoints = {
-  teams: '/teams',
-  schedule: '/schedule'
+  teams: '/v1/teams',
+  schedule: '/v1/schedule',
+  game: 'v1.1/game/',
 };
 
 export const getTeams = async (hydrate?: string[]) => {
@@ -48,4 +49,13 @@ export const getTeamById = async (id: number, hydrate?: string[]) => {
 export const getPreviousSchedule = async (id: number) => {
   const team = await getTeamById(id, ['previousSchedule']);
   return team.previousGameSchedule;
+}
+
+export const getGameById = async (gamePk: string, hydrate?: string[]) => {
+  const params = {
+    hydrate: hydrate?.join(','),
+  };
+
+  const response = await axiosInstance.get(`${endpoints.game}/${gamePk}/feed/live`, { params });
+  return response.data;
 }
