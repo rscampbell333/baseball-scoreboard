@@ -16,7 +16,7 @@ export interface BoxScoreProps {
 const LINE_SCORE_HEADER = ['', 1, 2, 3, 4, 5, 6, 7, 8, 9, '', 'R', 'H', 'E'];
 
 export interface TeamLineProps {
-  runsByInning: Array<number>;
+  runsByInning: Array<number | string>;
   runs: number;
   hits: number;
   errors: number;

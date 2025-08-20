@@ -3,6 +3,7 @@ import { getGameById } from "../mlbApi/mlbApi";
 import { Stack } from "@chakra-ui/react";
 import { useParams } from "react-router";
 import BoxScore from "../BoxScore";
+import Lineup from "../Lineup";
 
 const Game: React.FC = () => {
   const [game, setGame] = useState();
@@ -23,6 +24,7 @@ const Game: React.FC = () => {
         awayTeam={game.gameData.teams.away} 
         homeTeam={game.gameData.teams.home}
       /> }
+      { game && <Lineup boxscore={game.liveData.boxscore} />}
     </Stack>
   );
 };

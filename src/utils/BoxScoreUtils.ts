@@ -7,8 +7,8 @@ interface TeamLineScores {
 } 
 
 export const getTeamLineScores = (linescore: LineScore): TeamLineScores => {
-  const awayRunsByInning = Array<number>(9);
-  const homeRunsByInning = Array<number>(9);
+  const awayRunsByInning = Array<number | string>(9).fill('');
+  const homeRunsByInning = Array<number | string>(9).fill('');
 
   linescore.innings.forEach((inning, i) => {
     awayRunsByInning[i] = inning.away.runs;

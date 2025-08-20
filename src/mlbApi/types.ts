@@ -94,6 +94,171 @@ export interface LineScore {
   } 
 }
 
+export interface BattingStats {
+  flyouts: number;
+  groundOuts: number;
+  airOuts: number;
+  runs: number;
+  doubles: number;
+  triples: number;
+  homeRuns: number;
+  strikeOuts: number;
+  baseOnBalls: number;
+  intentionalWalks: number;
+  hits: number;
+  hitByPitch: number;
+  avg: string;
+  atBats: number;
+  obp: string;
+  slg: string;
+  ops: string;
+  caughtStealing: number;
+  stolenBases: number;
+  stolenBasePercentage: string;
+  groundIntoDoublePlay: number;
+  groundIntoTriplePlay: number;
+  plateAppearances: number;
+  totalBases: number;
+  rbi: number;
+  leftOnBase: number;
+  sacBunts: number;
+  sacFlies: number;
+  catachersInterference: number;
+  pickoffs: number;
+  atBatsPerHomeRun: string;
+  popOuts: number;
+  lineOuts: number;
+}
+
+export interface PitchingStats {
+	flyOuts: number;
+	groundOuts: number;
+	airOuts: number;
+	runs: number;
+	doubles: number;
+	triples: number;
+	homeRuns: number;
+	strikeOuts: number;
+	baseOnBalls: number;
+	intentionalWalks: number;
+	hits: number;
+	hitByPitch: number;
+	atBats: number;
+	obp: string;
+	caughtStealing: number;
+	stolenBases: number;
+	stolenBasePercentage: string;
+	caughtStealingPercentage: string;
+	numberOfPitches: number;
+	era: string;
+	inningsPitched: string;
+	saveOpportunities: number;
+	earnedRuns: number;
+	whip: string;
+	battersFaced: number;
+	outs: number;
+	completeGames: number;
+	shutouts: number;
+	pitchesThrown: number;
+	balls: number;
+	strikes: number;
+	strikePercentage: string;
+	hitBatsmen: number;
+	balks: number;
+	wildPitches: number;
+	pickoffs: number;
+	groundOutsToAirouts: string;
+	rbi: number;
+	pitchesPerInning: string;
+	runsScoredPer9: string;
+	homeRunsPer9: string;
+	inheritedRunners: number;
+	inheritedRunnersScored: number;
+	catchersInterference: number;
+	sacBunts: number;
+	sacFlies: number;
+	passedBall: number;
+	popOuts: number;
+	lineOuts: number;
+}
+
+interface FieldingStats {
+	caughtStealing: number;
+	stolenBases: number;
+	stolenBasePercentage: string;
+	caughtStealingPercentage: string;
+	assists: number;
+	putOuts: number;
+	errors: number;
+	chances: number;
+	passedBall: number;
+	pickoffs: number;
+}
+
+export interface Person {
+  id: number;
+  fullName: string;
+  link: string;
+}
+
+export interface Position {
+  code: number;
+  name: string;
+  type: string;
+  abbreviation: string;
+}
+
+export interface PlayerStatus {
+  code: string;
+  description: string;
+}
+
+export interface Player {
+  person: Person;
+  jerseyNumber: string;
+  postion: Position;
+  status: PlayerStatus;
+  parentTeamId: number;
+  stats: {
+    batting: BattingStats | Record<string, never>;
+    pitching: PitchingStats | Record<string, never>;
+    fielding: FieldingStats | Record<string, never>;
+  };
+  seasonStats: {
+    batting: BattingStats;
+    pitching: PitchingStats;
+    fielding: FieldingStats;
+  };
+  gameStatus: {
+    isCurrentBatter: boolean;
+    isCurrentPitcher: boolean;
+    isOnBench: boolean;
+    isSubstitute: boolean;
+  }
+}
+
+export interface BoxScoreTeam {
+  team: Team;
+  teamStats: {
+    batting: BattingStats;
+    pitching: PitchingStats;
+    fielding: FieldingStats;
+  };
+  players: Record<string, Player>;
+  batters: Array<number>;
+  pitchers: Array<number>;
+  bench: Array<number>;
+  bullpen: Array<number>;
+  battingOrder: Array<number>;
+}
+
+export interface BoxScore {
+  teams: {
+    away: BoxScoreTeam;
+    home: BoxScoreTeam;
+  }
+}
+
 export interface Game {
   gamePk: number;
   gameGuid: string;
