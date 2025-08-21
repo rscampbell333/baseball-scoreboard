@@ -1,11 +1,11 @@
 import { Box, Flex, Separator, Text } from "@chakra-ui/react";
 import { TeamContext } from "./mlbApi/TeamContext";
 import { useContext } from "react";
-import type { Game, GameTeam, Team } from "./mlbApi/types";
+import type { ScheduleGame, GameTeam, Team } from "./mlbApi/types";
 import GameState from "./GameState";
 
 export interface ScoreCardProps {
-  game: Game;
+  game: ScheduleGame;
 }
 
 const TeamRow = ({

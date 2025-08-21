@@ -1,5 +1,5 @@
 import axios from "axios";
-import { type Schedule, type Team } from "./types";
+import { type Game, type Schedule, type Team } from "./types";
 
 const SPORT_ID_MLB = 1;
 
@@ -56,6 +56,6 @@ export const getGameById = async (gamePk: string, hydrate?: string[]) => {
     hydrate: hydrate?.join(','),
   };
 
-  const response = await axiosInstance.get(`${endpoints.game}/${gamePk}/feed/live`, { params });
+  const response = await axiosInstance.get<Game>(`${endpoints.game}/${gamePk}/feed/live`, { params });
   return response.data;
 }

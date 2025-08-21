@@ -259,7 +259,77 @@ export interface BoxScore {
   }
 }
 
+export interface PlayResult {
+  type: string;
+  event?: string;
+  eventType?: string;
+  description?: string;
+  rbi: number;
+  awayScore: number;
+  homeScore: number;
+  isOut: boolean;
+}
+
+export interface PlayAbout {
+  atBatIndex: number;
+  halfInning: string;
+  isTopInning: boolean;
+  inning: number;
+  startTime: string;
+  endTime: string;
+  isComplete: boolean;
+  isScoringPlay: boolean;
+  hasReview: boolean;
+  hasOut: boolean;
+  captivatingIndex: number;
+}
+
+export interface Count {
+  balls: number;
+  strikes: number;
+  outs: number;
+}
+
+export interface PlayMatchup {
+  batter: Person;
+  pitcher: Person;
+}
+
+export interface Play {
+  result: PlayResult;
+  about: PlayAbout;
+  count: Count;
+  matchup: PlayMatchup;
+}
+
+export interface Plays {
+  currentPlay: Play;
+  allPlays: Array<Play>;
+  scoringPlays: Array<number>;
+}
+
+export interface GameData {
+  teams: {
+    away: Team;
+    home: Team;
+  };
+  status: GameStatus;
+}
+
+export interface LiveData {
+  linescore: LineScore;
+  boxscore: BoxScore;
+  plays: Plays;
+}
+
 export interface Game {
+  gamePk: number;
+  link: string;
+  gameData: GameData;
+  liveData: LiveData;
+}
+
+export interface ScheduleGame {
   gamePk: number;
   gameGuid: string;
   link: string;
@@ -303,7 +373,7 @@ export interface Date {
   totalEvents: number;
   totalGames: number;
   totalGamesInProgres: number;
-  games: Game[];
+  games: ScheduleGame[];
 };
 
 export interface Schedule {

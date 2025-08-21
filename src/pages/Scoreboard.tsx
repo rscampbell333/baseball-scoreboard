@@ -3,7 +3,7 @@ import { Flex, SimpleGrid } from "@chakra-ui/react";
 import ScoreCard from "../ScoreCard";
 import { getSchedule, getTeams } from "../mlbApi/mlbApi";
 import { TeamProvider } from "../mlbApi/TeamContext";
-import type { Game, Schedule, Team } from "../mlbApi/types";
+import type { ScheduleGame, Schedule, Team } from "../mlbApi/types";
 import { toaster } from "../components/ui/toaster";
 import { useIntervalAsync } from "../hooks/useInterval";
 import { Link } from "react-router";
@@ -28,7 +28,7 @@ const Scoreboard: React.FC = () => {
       });
   }, []);
 
-  let games: Game[] = [];
+  let games: ScheduleGame[] = [];
   if (teams.length > 0 && schedule) {
     games = schedule?.dates[0].games;
     const rangersIndex = games.findIndex(game => game.teams.away.team.id === 140 || game.teams.home.team.id === 140);

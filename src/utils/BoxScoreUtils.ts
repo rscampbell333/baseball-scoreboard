@@ -1,10 +1,14 @@
 import type { TeamLineProps } from "@/BoxScore";
-import type { LineScore } from "@/mlbApi/types";
+import type { GameStatus, LineScore } from "@/mlbApi/types";
 
 interface TeamLineScores {
   away: TeamLineProps;
   home: TeamLineProps;
 } 
+
+export const isGameInProgress = (status: GameStatus) => {
+  return status.statusCode === 'I';
+}
 
 export const getTeamLineScores = (linescore: LineScore): TeamLineScores => {
   const awayRunsByInning = Array<number | string>(9).fill('');

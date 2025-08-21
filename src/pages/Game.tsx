@@ -1,31 +1,36 @@
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
 import { getGameById } from "../mlbApi/mlbApi";
-import { Stack } from "@chakra-ui/react";
+import { Box, Separator, Stack } from "@chakra-ui/react";
 import { useParams } from "react-router";
 import BoxScore from "../BoxScore";
 import Lineup from "../Lineup";
+import { useIntervalAsync } from "../hooks/useInterval";
+import CurrentPlay from "../CurrentPlay";
+import { isGameInProgress } from "../utils/BoxScoreUtils";
 
 const Game: React.FC = () => {
-  const [game, setGame] = useState();
   const { gameId } = useParams();
 
-  useEffect(() => {
-    if (gameId) {
-      getGameById(gameId)
-        .then(r => setGame(r))
-        .catch(e => console.error(e));
-    }
-  }, [gameId]);
+  const loadGames = useCallback(() => getGameById(gameId as string), [gameId]);
+  const game = useIntervalAsync(loadGames, 15000);
 
   return (
-    <Stack>
-      { game && <BoxScore
-        linescore={game.liveData.linescore}
-        awayTeam={game.gameData.teams.away} 
-        homeTeam={game.gameData.teams.home}
-      /> }
-      { game && <Lineup boxscore={game.liveData.boxscore} />}
-    </Stack>
+    <Box p="4">
+      { game && (
+        <Stack>
+          <BoxScore
+            linescore={game.liveData.linescore}
+            awayTeam={game.gameData.teams.away} 
+            homeTeam={game.gameData.teams.home}
+          />
+          { isGameInProgress(game.gameData.status) && <>
+            <CurrentPlay liveData={game.liveData} />
+            <Separator />
+          </> }
+          <Lineup boxscore={game.liveData.boxscore} />
+        </Stack>
+      )}
+    </Box>
   );
 };
 

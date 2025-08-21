@@ -1,20 +1,28 @@
-import { Flex, Text } from "@chakra-ui/react";
-import type { BoxScore } from "./mlbApi/types";
+import { Box, Flex, Separator, Text } from "@chakra-ui/react";
+import type { BoxScore, BoxScoreTeam } from "./mlbApi/types";
 
 export interface LineupProps {
   boxscore: BoxScore;
 }
 
+const TeamLineup = ({ team }: { team: BoxScoreTeam }) => (
+  <Flex direction={'column'}>
+    {team.battingOrder.map((id, i) => <>
+      <Text>{team.players[`ID${id}`]?.person.fullName}</Text>
+      { i < team.battingOrder.length - 1 && <Separator variant={'dotted'} size={'md'}/> }
+      </>)}
+  </Flex> 
+)
+
 const Lineup: React.FC<LineupProps> = ({ boxscore }) => (
   <Flex>
-    <Flex direction={'column'} width="50%">
-      {boxscore.teams.away.battingOrder.map(id => 
-        <Text>{boxscore.teams.away.players[`ID${id}`]?.person.fullName}</Text>)}
-    </Flex>
-    <Flex direction={'column'} width="50%">
-      {boxscore.teams.home.battingOrder.map(id => 
-        <Text>{boxscore.teams.home.players[`ID${id}`]?.person.fullName}</Text>)}
-    </Flex>
+    <Box w="50%" mr={2}>
+      <TeamLineup team={boxscore.teams.away} />
+    </Box>
+    <Separator orientation={"vertical"} />
+    <Box w="50%" ml={2}>
+      <TeamLineup team={boxscore.teams.home} />
+    </Box>
   </Flex>
 );
 
