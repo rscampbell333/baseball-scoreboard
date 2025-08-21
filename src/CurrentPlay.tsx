@@ -10,17 +10,17 @@ const CurrentPlay: React.FC<CurrentPlayProps> = ({ liveData }) => {
   return (
     <SimpleGrid columns={4}>
       <GridItem colSpan={2}>
-        <SimpleGrid columns={3}>
+        <SimpleGrid columns={5}>
           <GridItem>
             <Text fontWeight={'bold'}>AB</Text>
           </GridItem>
-          <GridItem colSpan={2}>
+          <GridItem colSpan={4}>
             <Text>{currentPlay.matchup.batter.fullName}</Text>
           </GridItem>
           <GridItem>
             <Text fontWeight={'bold'}>P</Text>
           </GridItem>
-          <GridItem colSpan={2}>
+          <GridItem colSpan={4}>
             <Text>{currentPlay.matchup.pitcher.fullName}</Text>
           </GridItem>
         </SimpleGrid>
