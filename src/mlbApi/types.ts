@@ -293,6 +293,9 @@ export interface Count {
 export interface PlayMatchup {
   batter: Person;
   pitcher: Person;
+  postOnFirst: Person;
+  postOnSecond: Person;
+  postOnThird: Person;
 }
 
 export interface Play {
@@ -300,6 +303,7 @@ export interface Play {
   about: PlayAbout;
   count: Count;
   matchup: PlayMatchup;
+  playEndTime?: string;
 }
 
 export interface Plays {

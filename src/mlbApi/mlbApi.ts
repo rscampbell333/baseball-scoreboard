@@ -8,7 +8,7 @@ const axiosInstance = axios.create({ baseURL })
 const endpoints = {
   teams: '/v1/teams',
   schedule: '/v1/schedule',
-  game: 'v1.1/game/',
+  game: 'v1.1/game',
 };
 
 export const getTeams = async (hydrate?: string[]) => {
@@ -51,9 +51,10 @@ export const getPreviousSchedule = async (id: number) => {
   return team.previousGameSchedule;
 }
 
-export const getGameById = async (gamePk: string, hydrate?: string[]) => {
+export const getGameById = async (gamePk: string, hydrate?: string[], timecode?: string) => {
   const params = {
     hydrate: hydrate?.join(','),
+    timecode,
   };
 
   const response = await axiosInstance.get<Game>(`${endpoints.game}/${gamePk}/feed/live`, { params });

@@ -1,5 +1,6 @@
-import { Flex, GridItem, SimpleGrid, Spacer, Text } from "@chakra-ui/react";
+import { Flex, GridItem, SimpleGrid, Text } from "@chakra-ui/react";
 import type { LiveData } from "./mlbApi/types";
+import Bases from "./Bases";
 
 export interface CurrentPlayProps {
   liveData: LiveData;
@@ -29,7 +30,7 @@ const CurrentPlay: React.FC<CurrentPlayProps> = ({ liveData }) => {
         <Text>{currentPlay.count.balls}-{currentPlay.count.strikes}</Text>
         <Text>{currentPlay.count.outs} outs</Text>
       </Flex>
-      <Spacer />
+      <Bases plays={liveData.plays}/>
     </SimpleGrid>
   );
 };
