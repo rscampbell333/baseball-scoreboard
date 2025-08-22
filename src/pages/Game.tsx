@@ -11,7 +11,7 @@ import { isGameInProgress } from "../utils/BoxScoreUtils";
 const Game: React.FC = () => {
   const { gameId } = useParams();
 
-  const loadGames = useCallback(() => getGameById(gameId as string, undefined, '20250821_194104'), [gameId]);
+  const loadGames = useCallback(() => getGameById(gameId as string), [gameId]);
   const game = useIntervalAsync(loadGames, 15000);
 
   return (
