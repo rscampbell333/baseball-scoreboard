@@ -3,14 +3,17 @@ import { Provider } from "./components/ui/provider"
 import { Toaster } from "./components/ui/toaster";
 import Scoreboard from "./pages/Scoreboard";
 import Game from "./pages/Game";
+import PageWrapper from "./Layout/PageWrapper";
 
 export default function App() {
   return (
     <Provider>
-      <Routes>
-        <Route path="/" element={<Scoreboard />} />
-        <Route path="games/:gameId" element={<Game />} />
-      </Routes>
+        <PageWrapper>
+          <Routes>
+              <Route path="/" element={<Scoreboard />} />
+              <Route path="games/:gameId" element={<Game />} />
+          </Routes>
+        </PageWrapper>
       <Toaster />
     </Provider>
   )
