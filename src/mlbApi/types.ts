@@ -308,7 +308,7 @@ export interface Play {
 
 export interface Plays {
   currentPlay: Play;
-  allPlays: Array<Play>;
+  allPlays?: Array<Play>;
   scoringPlays: Array<number>;
 }
 

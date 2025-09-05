@@ -25,7 +25,7 @@ export interface TeamLineProps {
 
 const TeamLine = ({ runsByInning, runs, hits, errors, abbreviation }: TeamLineProps & { abbreviation: string}) => (
   <>
-    <GridItem colSpan={2} textAlign={"left"}>
+    <GridItem colSpan={2} textAlign={"left"} fontWeight={'bold'}>
       {abbreviation}
     </GridItem>
     { runsByInning.map((runs, i) => (

@@ -9,7 +9,7 @@ export interface CurrentPlayProps {
 const CurrentPlay: React.FC<CurrentPlayProps> = ({ liveData }) => {
   const { currentPlay } = liveData.plays;
   return (
-    <SimpleGrid columns={4}>
+    <SimpleGrid columns={4} pl="5px">
       <GridItem colSpan={2}>
         <SimpleGrid columns={5}>
           <GridItem>

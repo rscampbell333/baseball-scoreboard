@@ -1,5 +1,5 @@
 import type { TeamLineProps } from "@/BoxScore";
-import type { GameStatus, LineScore } from "@/mlbApi/types";
+import type { GameStatus, LineScore, Play, Plays } from "@/mlbApi/types";
 
 interface TeamLineScores {
   away: TeamLineProps;
@@ -29,4 +29,22 @@ export const getTeamLineScores = (linescore: LineScore): TeamLineScores => {
       ...linescore.teams.home,
     },
   };
+}
+
+export const getPlaysForBatter = (plays: Plays, batterPlayerId: number) => {
+  return plays.allPlays?.filter(play => play.matchup.batter.id === batterPlayerId) || [];
+}
+
+export const groupPlaysByBatter = (plays: Plays) => {
+  const playsByBatter: Record<number, Array<Play>> = {};
+
+  plays.allPlays?.forEach(play => {
+    if (!playsByBatter[play.matchup.batter.id]) {
+      playsByBatter[play.matchup.batter.id] = [play];
+    } else {
+      playsByBatter[play.matchup.batter.id].push(play);
+    }
+  });
+
+  return playsByBatter;
 }
