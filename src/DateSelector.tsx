@@ -21,11 +21,11 @@ const DateSelector: React.FC<DateSelectorProps> = ({ date, onSelect }) => {
 
 
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" width="100%">
       <IconButton variant="ghost" onClick={subtractDay}>
         <LuChevronLeft />
       </IconButton>
-      <Text>
+      <Text flexGrow={1} textAlign="center">
         {date.toLocaleDateString()}
       </Text>
       <IconButton variant="ghost" onClick={addDay}>

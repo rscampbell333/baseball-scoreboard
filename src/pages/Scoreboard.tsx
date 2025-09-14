@@ -62,7 +62,7 @@ const Scoreboard: React.FC = () => {
         <DateSelector date={date} onSelect={handleDateUpdate}/>
       </Flex>
       <Flex pl="4" pr="4" width={{ base: '100%', md: "3xl" }} justifyContent={{ base: 'center', md: 'left' }}>
-        <SimpleGrid columns={2}>
+        <SimpleGrid columns={2} gap={4}>
           { teams && games && games.map(g => (
             <Link to={`/games/${g.gamePk}`} key={g.gamePk}>
               <ScoreCard game={g}/>

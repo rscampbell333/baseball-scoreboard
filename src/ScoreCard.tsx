@@ -42,7 +42,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ game }) => {
   const showScore = gameStatus === "I" || gameStatus === "F" || gameStatus === "O";
 
   return (
-    <Flex direction="column" maxWidth="15em" mr={4} mb={4} fontSize="sm">
+    <Flex direction="column" maxWidth="15em" mb={4} fontSize="sm">
     { game.linescore && <GameState
       time={game.gameDate}
       linescore={game.linescore}
