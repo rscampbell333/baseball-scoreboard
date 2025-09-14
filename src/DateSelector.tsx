@@ -25,7 +25,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({ date, onSelect }) => {
       <IconButton variant="ghost" onClick={subtractDay}>
         <LuChevronLeft />
       </IconButton>
-      <Text marginTop=".25em">
+      <Text>
         {date.toLocaleDateString()}
       </Text>
       <IconButton variant="ghost" onClick={addDay}>
