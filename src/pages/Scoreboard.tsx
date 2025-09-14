@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import ScoreCard from "../ScoreCard";
 import { getSchedule, getTeams } from "../mlbApi/mlbApi";
@@ -6,12 +7,28 @@ import { TeamProvider } from "../mlbApi/TeamContext";
 import type { ScheduleGame, Schedule, Team } from "../mlbApi/types";
 import { toaster } from "../components/ui/toaster";
 import { useIntervalAsync } from "../hooks/useInterval";
-import { Link } from "react-router";
+import DateSelector from "../DateSelector";
 
 const Scoreboard: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const initialDate = searchParams.get('date');
+  const [date, setDate] = useState(initialDate ? new Date(initialDate): new Date());
   const [teams, setTeams] = useState<Team[]>([]);
 
-  const loadSchedules = useCallback(() => getSchedule({ hydrate: ['linescore']}), []);
+  const handleDateUpdate = (date: Date) => {
+    setDate(date);
+    setSearchParams(prev => {
+      prev.set('date', date.toLocaleDateString());
+      return prev;
+    });
+  }
+
+  const loadSchedules = useCallback(() => getSchedule({
+    hydrate: ['linescore'],
+    startDate: date,
+    endDate: date,
+  }), [date]);
   const schedule = useIntervalAsync<Schedule>(loadSchedules, 15000);
 
   useEffect(() => {
@@ -41,7 +58,10 @@ const Scoreboard: React.FC = () => {
 
   return (
     <TeamProvider teams={teams}>
-      <Flex p="4" width={{ base: '100%', md: "3xl" }} justifyContent={{ base: 'center', md: 'left' }}>
+      <Flex justifyContent="center">
+        <DateSelector date={date} onSelect={handleDateUpdate}/>
+      </Flex>
+      <Flex pl="4" pr="4" width={{ base: '100%', md: "3xl" }} justifyContent={{ base: 'center', md: 'left' }}>
         <SimpleGrid columns={2}>
           { teams && games && games.map(g => (
             <Link to={`/games/${g.gamePk}`} key={g.gamePk}>

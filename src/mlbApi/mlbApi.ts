@@ -26,14 +26,14 @@ export const getSchedule = async ({
   endDate,
   hydrate,
 }: {
-  startDate?: string,
-  endDate?: string,
+  startDate?: Date,
+  endDate?: Date,
   hydrate?: string[]
 } = {}) => {
   const params = {
     sportId: SPORT_ID_MLB,
-    startDate,
-    endDate,
+    startDate: startDate?.toLocaleDateString(),
+    endDate: endDate?.toLocaleDateString(),
     hydrate: hydrate?.join(','),
   };
 
