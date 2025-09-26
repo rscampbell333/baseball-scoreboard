@@ -10,11 +10,11 @@ const DivisionStandings: React.FC<DivisionStandingsProps> = ({ record }) => {
   const { division, teamRecords } = record;
 
   const nameCellStyle: CSSProperties = {
-    width: '50%',
+    width: '58%',
   }
 
   const dataCellStyle: CSSProperties = {
-    width: '25%',
+    width: '14%',
     textAlign: 'center',
   };
 
