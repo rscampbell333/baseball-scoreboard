@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { EmptyState, Flex, SimpleGrid } from "@chakra-ui/react";
+import { FaBaseballBatBall } from "react-icons/fa6";
 import ScoreCard from "../ScoreCard";
 import { getSchedule, getTeams } from "../mlbApi/mlbApi";
 import { TeamProvider } from "../mlbApi/TeamContext";
@@ -46,7 +47,7 @@ const Scoreboard: React.FC = () => {
   }, []);
 
   let games: ScheduleGame[] = [];
-  if (teams.length > 0 && schedule) {
+  if (teams.length > 0 && schedule?.dates && schedule.dates.length > 0) {
     games = schedule?.dates[0].games;
     const rangersIndex = games.findIndex(game => game.teams.away.team.id === 140 || game.teams.home.team.id === 140);
     if (rangersIndex > -1) {
@@ -63,7 +64,7 @@ const Scoreboard: React.FC = () => {
       </Flex>
       <Flex pl="4" pr="4" width={{ base: '100%', md: "3xl" }} justifyContent={{ base: 'center', md: 'left' }}>
         <SimpleGrid columns={2} gap={4}>
-          { teams && games && games.map(g => (
+          { teams && games.length > 0 && games.map(g => (
             <Link to={`/games/${g.gamePk}`} key={g.gamePk}>
               <ScoreCard game={g}/>
             </Link>
@@ -71,6 +72,16 @@ const Scoreboard: React.FC = () => {
           )}
         </SimpleGrid>
       </Flex>
+      { (!teams || games.length === 0) && (
+          <EmptyState.Root>
+            <EmptyState.Content>
+              <EmptyState.Indicator>
+                <FaBaseballBatBall />
+              </EmptyState.Indicator>
+              <EmptyState.Title>No games on this date</EmptyState.Title>
+            </EmptyState.Content>
+          </EmptyState.Root>
+        )}
     </TeamProvider>
   );
 };
