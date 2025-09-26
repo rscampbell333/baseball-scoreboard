@@ -1,6 +1,6 @@
-import { Flex, IconButton, Spacer } from "@chakra-ui/react";
+import { Flex, IconButton, Menu, Portal, Spacer } from "@chakra-ui/react";
 import { LuArrowLeft, LuMenu } from "react-icons/lu";
-import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
 const Header: React.FC = () => {
@@ -16,9 +16,25 @@ const Header: React.FC = () => {
         </IconButton>
       )}
       <Spacer />
-      <IconButton variant="ghost">
-        <LuMenu />
-      </IconButton>
+      <Menu.Root>
+        <Menu.Trigger asChild>
+          <IconButton variant="ghost">
+            <LuMenu />
+          </IconButton>
+        </Menu.Trigger>
+        <Portal>
+          <Menu.Positioner>
+            <Menu.Content>
+              <Menu.Item value="home" asChild>
+                <Link to="/">Home</Link>
+              </Menu.Item>
+              <Menu.Item value="standings" asChild>
+                <Link to="/standings">Standings</Link>
+              </Menu.Item>
+            </Menu.Content>
+          </Menu.Positioner>
+        </Portal>
+      </Menu.Root>
     </Flex>
   );
 };

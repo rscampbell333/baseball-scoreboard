@@ -1,14 +1,17 @@
 import axios from "axios";
-import { type Game, type Schedule, type Team } from "./types";
+import { type Game, type Schedule, type Team, type Standings } from "./types";
 
 const SPORT_ID_MLB = 1;
+const LEAGUE_ID_AL = '103';
+const LEAGUE_ID_NL = '104';
 
 const baseURL = 'https://statsapi.mlb.com/api';
 const axiosInstance = axios.create({ baseURL })
 const endpoints = {
   teams: '/v1/teams',
   schedule: '/v1/schedule',
-  game: 'v1.1/game',
+  game: '/v1.1/game',
+  standings: '/v1/standings',
 };
 
 export const getTeams = async (hydrate?: string[]) => {
@@ -60,3 +63,17 @@ export const getGameById = async (gamePk: string, hydrate?: string[], timecode?:
   const response = await axiosInstance.get<Game>(`${endpoints.game}/${gamePk}/feed/live`, { params });
   return response.data;
 }
+
+export const getStandings = async (leagueId: string, season?: string) => {
+  const params = {
+    leagueId,
+    season,
+    hydrate: 'division',
+  };
+
+  const response = await axiosInstance.get<Standings>(`${endpoints.standings}`, { params });
+  return response.data;
+}
+
+export const getALStandings = async (season?: string) => getStandings(LEAGUE_ID_AL, season);
+export const getNLStandings = async (season?: string) => getStandings(LEAGUE_ID_NL, season);

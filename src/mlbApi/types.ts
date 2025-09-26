@@ -1,3 +1,28 @@
+export interface League {
+  id: number;
+  link: string;
+}
+
+export interface Sport {
+  id: number;
+  link: string;
+}
+
+export interface Division {
+  id: number;
+  link: string;
+  abbreviation: string;
+  active: boolean;
+  hasWildcard: boolean;
+  league: League;
+  name: string;
+  nameShort: string;
+  numPlayoffTeams: number;
+  season: string;
+  sortOrder: number;
+  sport: Sport;
+}
+
 export interface GameStatus {
   abstractGameState: string;
   codedGameState: string;
@@ -557,3 +582,101 @@ export interface Team {
   nextGameSchedule?: Schedule;
   deviceProperties?: DeviceProperties;
 };
+
+export interface StandingsTeam {
+  id: number;
+  name: string;
+  link: string;
+}
+
+export interface StandingsStreak {
+  streakType: "wins" | "losses";
+  streakNumber: number;
+  streakCode: string;
+}
+
+export interface StandingsTeamBaseRecord {
+  wins: number;
+  losses: number;
+  pct: string;
+}
+
+export interface StandingsTeamLeagueRecord extends StandingsTeamBaseRecord {
+  ties: number;
+}
+
+export interface StandingsTeamSplitRecord extends StandingsTeamBaseRecord {
+  type: string;
+}
+
+export interface StandingsTeamVsDivisionRecord extends StandingsTeamBaseRecord {
+  division: Division;
+}
+
+export interface StandingsTeamOverallRecord extends StandingsTeamBaseRecord {
+  type: string;
+}
+
+export interface StandingsTeamVsLeagueRecord extends StandingsTeamBaseRecord {
+  league: League;
+}
+
+export interface StandingsTeamExpectedRecord extends StandingsTeamBaseRecord {
+  type: string;
+}
+
+export interface StandingsTeamRecord {
+  team: StandingsTeam;
+  season: string;
+  streak: StandingsStreak;
+  divisionRank: string;
+  leagueRank: string;
+  sportRank: string;
+  gamesPlayed: number;
+  gamesBack: string;
+  wildCardGamesBack: string;
+  leagueGamesBack: string;
+  springLeagueGamesBack: string;
+  sportGamesBack: string;
+  divisionGamesBack: string;
+  conferenceGamesBack: string;
+  leagueRecord: StandingsTeamLeagueRecord;
+  lastUpdated: string;
+  records: {
+    splitRecords: StandingsTeamSplitRecord;
+    divisionRecords: StandingsTeamVsDivisionRecord;
+    leagueRecords: StandingsTeamVsLeagueRecord;
+    overallRecords: StandingsTeamOverallRecord;
+    expectedRecords: StandingsTeamExpectedRecord;
+  }
+  runsAllowed: number;
+  runsScored: number;
+  divisionChamp: boolean;
+  divisionLeader: boolean;
+  hasWildcard: boolean;
+  clinched: boolean;
+  eliminationNumber: string;
+  eliminationNumberSport: string;
+  eliminationNumberLeague: string;
+  eliminationNumberDivision: string;
+  eliminationNumberConference: string;
+  wildCardEliminationNumber: string;
+  magicNumber: string;
+  wins: number;
+  losses: number;
+  runDifferential: number;
+  winningPercentage: string;
+}
+
+export interface StandingsRecord {
+  standingsType: string;
+  league: League;
+  division: Division;
+  sport: Sport;
+  lastUpdated: string;
+  teamRecords: Array<StandingsTeamRecord>;
+}
+
+export interface Standings {
+  records: Array<StandingsRecord>;
+}

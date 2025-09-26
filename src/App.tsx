@@ -4,6 +4,7 @@ import { Toaster } from "./components/ui/toaster";
 import Scoreboard from "./pages/Scoreboard";
 import Game from "./pages/Game";
 import PageWrapper from "./Layout/PageWrapper";
+import Standings from "./pages/Standings";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
           <Routes>
               <Route path="/" element={<Scoreboard />} />
               <Route path="games/:gameId" element={<Game />} />
+              <Route path="/standings" element={<Standings />} />
           </Routes>
         </PageWrapper>
       <Toaster />
