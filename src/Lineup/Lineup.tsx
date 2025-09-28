@@ -35,7 +35,12 @@ const Lineup: React.FC<LineupProps> = ({ gameData, boxscore, linescore, playsByB
   }
   
   return (
-    <Tabs.Root value={selectedTab} onValueChange={handleValueChange}>
+    <Tabs.Root
+      lazyMount
+      unmountOnExit
+      value={selectedTab}
+      onValueChange={handleValueChange}
+    >
       <Tabs.List>
         <Tabs.Trigger value="away" width="50%">
           {gameData.teams.away.teamName}

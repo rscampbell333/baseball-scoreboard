@@ -61,7 +61,7 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeader
-              data-sticky="end"
+              data-sticky={ expand ? "end" : undefined }
               minWidth={nameWidth}
               left="0"
             >
@@ -85,7 +85,7 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
 
             return (<Table.Row key={id}>
               <Table.Cell
-                data-sticky="end"
+                data-sticky={ expand ? "end" : undefined }
                 minWidth={nameWidth}
                 left="0"
               >
