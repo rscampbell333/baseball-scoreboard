@@ -19,6 +19,7 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
             <>
               <Table.ColumnHeader textAlign={'center'}>AB</Table.ColumnHeader>
               <Table.ColumnHeader textAlign={'center'}>H</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign={'center'}>HR</Table.ColumnHeader>
               <Table.ColumnHeader textAlign={'center'}>K</Table.ColumnHeader>
               <Table.ColumnHeader textAlign={'center'}>BB</Table.ColumnHeader>
             </>
@@ -36,6 +37,7 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
               <>
                 <Table.Cell textAlign={'center'}>{battingStats.atBats}</Table.Cell>
                 <Table.Cell textAlign={'center'}>{battingStats.hits}</Table.Cell>
+                <Table.Cell textAlign={'center'}>{battingStats.homeRuns}</Table.Cell>
                 <Table.Cell textAlign={'center'}>{battingStats.strikeOuts}</Table.Cell>
                 <Table.Cell textAlign={'center'}>{battingStats.baseOnBalls}</Table.Cell>
               </>
