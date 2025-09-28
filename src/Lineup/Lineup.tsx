@@ -1,7 +1,6 @@
-import { Box, Flex, Separator } from "@chakra-ui/react";
+import { Flex, Separator, Tabs } from "@chakra-ui/react";
 import type { BoxScore, GameData, LineScore, Play } from "../mlbApi/types";
 import LineupTeam from "./LineupTeam";
-import LineupHeader from "./LineupHeader";
 import { useEffect, useState } from "react";
 import { isGameInProgress } from "../utils/BoxScoreUtils";
 
@@ -13,68 +12,68 @@ export interface LineupProps {
 }
 
 const Lineup: React.FC<LineupProps> = ({ gameData, boxscore, linescore, playsByBatter }) => {
-  const [expandHome, setExpandHome] = useState(false);
-  const [expandAway, setExpandAway] = useState(false);
   const [isTeamSelectedManually, setIsTeamSelectedManually] = useState(false);
+  const [selectedTab, setSelectedTab] = useState<string | null>();
 
   useEffect(() => {
-    if (!isTeamSelectedManually && isGameInProgress(gameData.status)) {
-      if (linescore.isTopInning) {
-        setExpandAway(true);
-        setExpandHome(false);
+    if (!isTeamSelectedManually) {
+      if (isGameInProgress(gameData.status)) {
+        if (linescore.isTopInning) {
+          setSelectedTab('away')
+        } else {
+          setSelectedTab('home')
+        }
       } else {
-        setExpandAway(false);
-        setExpandHome(true);
+        setSelectedTab('default')
       }
     }
-  }, [gameData, linescore]);
+  }, [gameData, linescore, isTeamSelectedManually]);
 
-  const handleSelectTeam = (isHome: boolean) => {
-    if (isHome) {
-      setExpandAway(false);
-      setExpandHome(true);
-    } else {
-      setExpandAway(true);
-      setExpandHome(false);
-    }
-
+  const handleValueChange = (e: Tabs.TabsValueChangeDetails) => {
+    setSelectedTab(e.value);
     setIsTeamSelectedManually(true);
   }
-
-  const awayStyle = expandAway ? { width: '100%' } : { width: '50%', marginRight: '2px' }
-
-  const homeStyle = expandHome ? { width: '100%' } : { width: '50%', marginLeft: '2px' }
   
   return (
-    <Flex direction={'column'}>
-      <LineupHeader
-        awayTeam={gameData.teams.away}
-        homeTeam={gameData.teams.home}
-        onSelectTeam={handleSelectTeam}
-      />
-      { (expandAway || expandHome) && <><Separator mb={2}/></>}
-      <Flex>
-        { !expandHome && (
-          <Box style={awayStyle}>
-            <LineupTeam
-              expand={expandAway}
-              team={boxscore.teams.away}
-              playsByBatter={playsByBatter}
-            />
-          </Box>
-        )}
-        { !expandAway && !expandHome && <Separator orientation={'vertical'} /> }
-        { !expandAway && (
-          <Box style={homeStyle}>
-            <LineupTeam
-              expand={expandHome} 
-              team={boxscore.teams.home}
-              playsByBatter={playsByBatter}
-            />
-          </Box>
-        )}
-      </Flex>
-    </Flex>
+    <Tabs.Root value={selectedTab} onValueChange={handleValueChange}>
+      <Tabs.List>
+        <Tabs.Trigger value="away" width="50%">
+          {gameData.teams.away.teamName}
+        </Tabs.Trigger>
+        <Tabs.Trigger value="home" width="50%">
+          {gameData.teams.home.teamName}
+        </Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="away">
+        <LineupTeam
+          expand={true}
+          team={boxscore.teams.away}
+          playsByBatter={playsByBatter}
+        />
+      </Tabs.Content>
+      <Tabs.Content value="home">
+        <LineupTeam
+          expand={true}
+          team={boxscore.teams.home}
+          playsByBatter={playsByBatter}
+        />
+      </Tabs.Content>
+      <Tabs.Content value="default">
+        <Flex>
+          <LineupTeam
+            expand={false}
+            team={boxscore.teams.away}
+            playsByBatter={playsByBatter}
+          />
+          <Separator orientation={'vertical'} />
+          <LineupTeam
+            expand={false}
+            team={boxscore.teams.home}
+            playsByBatter={playsByBatter}
+          />
+        </Flex>
+      </Tabs.Content>
+    </Tabs.Root>
   );
 };
 
