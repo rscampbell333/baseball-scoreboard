@@ -1,5 +1,5 @@
 import type { TeamLineProps } from "@/BoxScore";
-import type { GameStatus, LineScore, Play, Plays } from "@/mlbApi/types";
+import type { BoxScoreTeam, GameStatus, LineScore, Play, Player, Plays } from "@/mlbApi/types";
 
 interface TeamLineScores {
   away: TeamLineProps;
@@ -47,4 +47,27 @@ export const groupPlaysByBatter = (plays: Plays) => {
   });
 
   return playsByBatter;
+}
+
+export const getBattingOrder = (team: BoxScoreTeam) => {
+  const battingOrder: Array<Array<Player>> = new Array(9);
+
+  for (const player of Object.values(team.players)) {
+    if (player.battingOrder) {
+      // batting order has 3 characters
+      // the first is the spot in the batting order
+      // the last indicates the order of batters in that position
+      // second is ???
+      const battingPosition = parseInt(player.battingOrder.charAt(0));
+      const playerNumberAtPosition = parseInt(player.battingOrder.charAt(2));
+
+      if (!battingOrder[battingPosition - 1]) {
+        battingOrder[battingPosition - 1] = [];
+      }
+
+      battingOrder[battingPosition - 1][playerNumberAtPosition] = player;
+    }
+  }
+
+  return battingOrder;
 }

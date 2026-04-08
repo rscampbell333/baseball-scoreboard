@@ -241,7 +241,7 @@ export interface PlayerStatus {
 export interface Player {
   person: Person;
   jerseyNumber: string;
-  postion: Position;
+  position: Position;
   status: PlayerStatus;
   parentTeamId: number;
   stats: {
@@ -259,7 +259,8 @@ export interface Player {
     isCurrentPitcher: boolean;
     isOnBench: boolean;
     isSubstitute: boolean;
-  }
+  },
+  battingOrder: string;
 }
 
 export interface BoxScoreTeam {

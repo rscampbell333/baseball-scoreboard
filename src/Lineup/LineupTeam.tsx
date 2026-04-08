@@ -1,5 +1,6 @@
 import type { BattingStats, BoxScoreTeam, Play } from "@/mlbApi/types";
-import { Table } from "@chakra-ui/react";
+import { getBattingOrder } from "@/utils/BoxScoreUtils";
+import { Badge, Table } from "@chakra-ui/react";
 
 interface LineupTeamProps {
   expand: boolean;
@@ -19,7 +20,9 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
     { label: 'BB', field: 'baseOnBalls' },
     { label: '2B', field: 'doubles' },
     { label: '3B', field: 'triples' },
-  ]
+  ];
+
+  const battingOrder = getBattingOrder(team).flatMap(x => x);
 
   return (
     <Table.ScrollArea width="100%">
@@ -69,6 +72,7 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
             </Table.ColumnHeader>
             { expand && dataColumns.map(col => (
                 <Table.ColumnHeader
+                  key={col.label}
                   textAlign="center"
                   minWidth={dataWidth}
                 >
@@ -79,20 +83,22 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          { team.battingOrder.map((id) => {
-            const player = team.players[`ID${id}`];
+          { battingOrder.map((player) => {
             const battingStats = player.stats.batting;
+            const starter = player.battingOrder.endsWith('0');
 
-            return (<Table.Row key={id}>
+            return (<Table.Row key={player.person.id}>
               <Table.Cell
                 data-sticky={ expand ? "end" : undefined }
                 minWidth={nameWidth}
                 left="0"
               >
-                {player.person.fullName || ''}
+                {!starter && '-'} {player.person.fullName || ''} {' '}
+                <Badge>{player.position.abbreviation}</Badge>
               </Table.Cell>
               { expand && dataColumns.map(col => (
                   <Table.Cell
+                    key={`${col.field}-${player.person.id}`}
                     textAlign={'center'}
                     minWidth={dataWidth}
                   >
