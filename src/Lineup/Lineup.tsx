@@ -5,13 +5,20 @@ import { useEffect, useState } from "react";
 import { isGameInProgress } from "../utils/BoxScoreUtils";
 
 export interface LineupProps {
+  gameId: string;
   gameData: GameData;
   boxscore: BoxScore;
   linescore: LineScore;
   playsByBatter: Record<number, Play[]>;
 }
 
-const Lineup: React.FC<LineupProps> = ({ gameData, boxscore, linescore, playsByBatter }) => {
+const Lineup: React.FC<LineupProps> = ({
+  gameId,
+  gameData,
+  boxscore,
+  linescore,
+  playsByBatter,
+}) => {
   const [isTeamSelectedManually, setIsTeamSelectedManually] = useState(false);
   const [selectedTab, setSelectedTab] = useState<string | null>();
 
@@ -52,6 +59,7 @@ const Lineup: React.FC<LineupProps> = ({ gameData, boxscore, linescore, playsByB
       <Tabs.Content value="away">
         <LineupTeam
           expand={true}
+          gameId={gameId}
           team={boxscore.teams.away}
           playsByBatter={playsByBatter}
         />
@@ -59,6 +67,7 @@ const Lineup: React.FC<LineupProps> = ({ gameData, boxscore, linescore, playsByB
       <Tabs.Content value="home">
         <LineupTeam
           expand={true}
+          gameId={gameId}
           team={boxscore.teams.home}
           playsByBatter={playsByBatter}
         />
@@ -67,12 +76,14 @@ const Lineup: React.FC<LineupProps> = ({ gameData, boxscore, linescore, playsByB
         <Flex>
           <LineupTeam
             expand={false}
+            gameId={gameId}
             team={boxscore.teams.away}
             playsByBatter={playsByBatter}
           />
           <Separator orientation={'vertical'} />
           <LineupTeam
             expand={false}
+            gameId={gameId}
             team={boxscore.teams.home}
             playsByBatter={playsByBatter}
           />

@@ -1,14 +1,20 @@
 import type { BattingStats, BoxScoreTeam, Play } from "@/mlbApi/types";
 import { getBattingOrder } from "@/utils/BoxScoreUtils";
-import { Badge, Table } from "@chakra-ui/react";
+import {
+  Badge,
+  Link as ChakraLink,
+  Table
+} from "@chakra-ui/react";
+import { Link } from "react-router";
 
 interface LineupTeamProps {
   expand: boolean;
   team: BoxScoreTeam;
   playsByBatter: Record<number, Play[]>;
+  gameId: string;
 }
 
-const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
+const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team, gameId }) => {
   const nameWidth = expand ? '12em' : undefined;
   const dataWidth = '3em';
 
@@ -93,7 +99,13 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team }) => {
                 minWidth={nameWidth}
                 left="0"
               >
-                {!starter && '-'} {player.person.fullName || ''} {' '}
+                {!starter && '- '}
+                <ChakraLink asChild>
+                  <Link to={`/games/${gameId}/players/ID${player.person.id}`}>
+                    {player.person.fullName}
+                  </Link>
+                </ChakraLink>
+                {' '}
                 <Badge>{player.position.abbreviation}</Badge>
               </Table.Cell>
               { expand && dataColumns.map(col => (
