@@ -31,7 +31,7 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team, gameId }) => {
   const battingOrder = getBattingOrder(team).flatMap(x => x);
 
   return (
-    <Table.ScrollArea width="100%">
+    <Table.ScrollArea width="100%" overflowY="hidden">
       <Table.Root 
         variant="line"
         css={{
