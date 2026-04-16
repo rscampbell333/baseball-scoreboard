@@ -50,9 +50,11 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   
   return (
     <Dialog.Root
+      scrollBehavior="outside"
       size={{ mdDown: "cover", md: "md" }}
       open={true}
       onOpenChange={onClose}
+      placement="center"
     > 
       <Portal>
         <Dialog.Backdrop />
