@@ -18,7 +18,7 @@ export const useInterval = <T,>(fn: () => T, time: number) => {
   return result;
 }
 
-export const useIntervalAsync = <T,>(fn: () => Promise<T>, time: number) => {
+export const useIntervalAsync = <T,>(fn: () => Promise<T | null>, time: number) => {
   const [result, setResult] = useState<T | undefined>();
 
   useEffect(() => {

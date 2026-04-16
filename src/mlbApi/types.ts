@@ -261,6 +261,7 @@ export interface Player {
     isSubstitute: boolean;
   },
   battingOrder: string;
+  allPositions: Array<Position>;
 }
 
 export interface BoxScoreTeam {
@@ -680,4 +681,62 @@ export interface StandingsRecord {
 
 export interface Standings {
   records: Array<StandingsRecord>;
+}
+
+export interface HittingGameLogSplitStat {
+  summary: string;
+  gamesPlayed: number;
+  flyOuts: number;
+  groundOuts: number;
+  airOuts: number;
+  runs: number;
+  doubles: number;
+  triples: number;
+  homeRuns: number;
+  strikeOuts: number;
+  baseOnBalls: number;
+  intentionalWalks: number;
+  hits: number;
+  hitByPitch: number;
+  atBats: number;
+  caughtStealing: number;
+  stolenBases: number;
+  stolenBasePercentage: string;
+  groundIntoDoublePlay: number;
+  groundIntoTriplePlay: number;
+  plateAppearances: number;
+  totalBases: number;
+  rbi: number;
+  leftOnBase: number;
+  sacBunts: number;
+  sacFlies: number;
+  catchersInterference: number;
+  pickoffs: number;
+  atBatsPerHomeRun: string;
+}
+
+export interface HittingGameLogSplit {
+  type: 'gameLog';
+  group: 'hitting';
+  stat: HittingGameLogSplitStat;
+}
+
+export interface PitchingGameLogSplit {
+  type: 'gameLog';
+  group: 'pitching';
+  stat: Record<string, unknown>;
+}
+
+export type GameLogSplit = HittingGameLogSplit | PitchingGameLogSplit;
+
+// add more over time
+export type Split = GameLogSplit;
+
+export interface Stat {
+  exemptions: Array<string>;
+  splits: Array<Split>;
+}
+
+export interface PlayerGameStats {
+  stats: Array<Stat>
 }

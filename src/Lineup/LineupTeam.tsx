@@ -3,7 +3,7 @@ import { getBattingOrder } from "@/utils/BoxScoreUtils";
 import {
   Badge,
   Link as ChakraLink,
-  Table
+  Table,
 } from "@chakra-ui/react";
 import { Link } from "react-router";
 
@@ -101,7 +101,7 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team, gameId }) => {
               >
                 {!starter && '- '}
                 <ChakraLink asChild>
-                  <Link to={`/games/${gameId}/players/ID${player.person.id}`}>
+                  <Link to={`/games/${gameId}/players/${player.person.id}`}>
                     {player.person.fullName}
                   </Link>
                 </ChakraLink>

@@ -1,43 +1,91 @@
-import type { Player } from "@/mlbApi/types";
+import type {
+  HittingGameLogSplit,
+  Play,
+  Player,
+  PlayerGameStats,
+  Split,
+} from "@/mlbApi/types";
 import {
-  Badge,
   CloseButton,
   Dialog,
+  Flex,
   Portal,
+  Separator,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 import Section from "./Section";
 import PlayerStats from "./PlayerStats";
 import PlateAppearances from "./PlateAppearances";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 interface PlayerCardProps {
+  team: string;
   player: Player;
+  playerGameStats?: PlayerGameStats;
+  plateAppearances: Array<Play>;
 }
 
-const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
+const isHittingSplit = (split: Split): split is HittingGameLogSplit => {
+  return split.type === 'gameLog' && split.group === 'hitting';
+}
+
+const getHittingStats = (stats?: PlayerGameStats): HittingGameLogSplit | undefined => {
+  return stats?.stats
+    .flatMap(stat => stat.splits)
+    .find(isHittingSplit);
+}
+
+const PlayerCard: React.FC<PlayerCardProps> = ({
+  team,
+  player,
+  playerGameStats,
+  plateAppearances,
+}) => {
   const navigate = useNavigate();
+
+  const hittingSummary = getHittingStats(playerGameStats);
+
+  const onClose = () => navigate(-1);
   
   return (
-    <Dialog.Root size="cover" open={true}> 
+    <Dialog.Root
+      size={{ mdDown: "cover", md: "md" }}
+      open={true}
+      onOpenChange={onClose}
+    > 
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header>
-              <Dialog.Title>{player.person.fullName}</Dialog.Title>
-              <Dialog.CloseTrigger asChild>
-                <CloseButton size="sm" onClick={() => navigate(-1)} />
-              </Dialog.CloseTrigger>
+              <Stack>
+                <Dialog.Title>{player.person.fullName}</Dialog.Title>
+                <Dialog.CloseTrigger asChild>
+                  <CloseButton size="sm" />
+                </Dialog.CloseTrigger>
+                <Flex>
+                  <Text pr={2}>{player.allPositions.map(pos => pos.abbreviation).join(', ')}</Text>
+                  <Separator orientation="vertical" />
+                  <Text pl={2}>{team}</Text>
+                </Flex>
+              </Stack>    
             </Dialog.Header>
-            <Dialog.Body>
-              <Section title="Season Stats">
-                <PlayerStats player={player} />
-              </Section>
-              <Section title="Plate Appearances">
-                <PlateAppearances player={player} />
-              </Section>
-            </Dialog.Body>
+            { hittingSummary && (
+              <Dialog.Body>
+                <Section title="Season Stats">
+                  <PlayerStats player={player} />
+                </Section>
+                <Separator />
+                <Section title="Game Summary" mt={2}>
+                  <Text fontSize="lg">{hittingSummary.stat.summary}</Text>
+                </Section>
+                <Separator />
+                <Section title="Plate Appearances" mt={2}>
+                  <PlateAppearances plateAppearances={plateAppearances} />
+                </Section>
+              </Dialog.Body>
+            )}
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

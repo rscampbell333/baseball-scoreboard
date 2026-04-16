@@ -10,7 +10,7 @@ interface PlayerStatProps {
 const PlayerStat: React.FC<PlayerStatProps> = ({
   label,
   value,
-  helpText
+  helpText,
 }) => (
   <Stat.Root>
     <Stat.Label>{label}

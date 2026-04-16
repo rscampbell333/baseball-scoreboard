@@ -1,15 +1,16 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, type JsxStyleProps } from "@chakra-ui/react";
 import type { PropsWithChildren } from "react";
 
 interface SectionProps {
   title: string;
 }
 
-const Section: React.FC<SectionProps & PropsWithChildren> = ({
+const Section: React.FC<SectionProps & PropsWithChildren & JsxStyleProps> = ({
   title,
-  children
+  children,
+  ...styleProps
 }) => (
-  <Box mb="3">
+  <Box mb="3" {...styleProps}>
     <Heading size="md" pb="2">{title}</Heading>
     {children}
   </Box>
