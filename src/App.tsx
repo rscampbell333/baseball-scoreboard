@@ -5,6 +5,7 @@ import Scoreboard from "./pages/Scoreboard";
 import Game from "./pages/Game";
 import PageWrapper from "./Layout/PageWrapper";
 import Standings from "./pages/Standings";
+import PlayerRoute from "./Players/PlayerRoute";
 
 export default function App() {
   return (
@@ -12,7 +13,9 @@ export default function App() {
         <PageWrapper>
           <Routes>
               <Route path="/" element={<Scoreboard />} />
-              <Route path="games/:gameId" element={<Game />} />
+              <Route path="games/:gameId" element={<Game />}>
+                <Route path="players/:playerId" element={<PlayerRoute />} />
+              </Route>
               <Route path="/standings" element={<Standings />} />
           </Routes>
         </PageWrapper>

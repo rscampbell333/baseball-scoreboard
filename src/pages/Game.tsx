@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { getGameById } from "../mlbApi/mlbApi";
 import { Box, Separator, Stack } from "@chakra-ui/react";
-import { useParams } from "react-router";
+import { Outlet, useParams } from "react-router";
 import BoxScore from "../BoxScore";
 import Lineup from "../Lineup/Lineup";
 import { useIntervalAsync } from "../hooks/useInterval";
@@ -18,7 +18,7 @@ const Game: React.FC = () => {
 
   return (
     <Box p="4">
-      { game && (
+      { game && gameId && (
         <Stack>
           <BoxScore
             linescore={game.liveData.linescore}
@@ -30,11 +30,13 @@ const Game: React.FC = () => {
             <Separator />
           </> }
           <Lineup
+            gameId={gameId}
             gameData={game.gameData}
             linescore={game.liveData.linescore}
             boxscore={game.liveData.boxscore}
             playsByBatter={playsByBatter}
           />
+          <Outlet context={{ game }}/>
         </Stack>
       )}
     </Box>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { type Game, type Schedule, type Team, type Standings } from "./types";
+import { type Game, type Schedule, type Team, type Standings, type PlayerGameStats } from "./types";
 
 const SPORT_ID_MLB = 1;
 const LEAGUE_ID_AL = '103';
@@ -77,3 +77,13 @@ export const getStandings = async (leagueId: string, season?: string) => {
 
 export const getALStandings = async (season?: string) => getStandings(LEAGUE_ID_AL, season);
 export const getNLStandings = async (season?: string) => getStandings(LEAGUE_ID_NL, season);
+
+export const getPlayerGameStats = async (
+  playerId: string,
+  gameId: string,
+) => {
+  const endpoint = `/v1/people/${playerId}/stats/game/${gameId}`;
+  const response = await axiosInstance.get<PlayerGameStats>(endpoint);
+
+  return response.data;
+}

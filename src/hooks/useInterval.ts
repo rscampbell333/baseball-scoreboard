@@ -18,19 +18,19 @@ export const useInterval = <T,>(fn: () => T, time: number) => {
   return result;
 }
 
-export const useIntervalAsync = <T,>(fn: () => Promise<T>, time: number) => {
+export const useIntervalAsync = <T,>(fn: () => Promise<T | null>, time: number) => {
   const [result, setResult] = useState<T | undefined>();
 
   useEffect(() => {
     const result = fn();
     result
-      .then(r => setResult(r))
+      .then(r => setResult(r ? r : undefined))
       .catch(e => console.error(e));
 
     const interval = setInterval(() => {
       const result = fn();
       result
-        .then(r => setResult(r))
+        .then(r => setResult(r ? r : undefined))
         .catch(e => console.error(e));
     }, time);
 
