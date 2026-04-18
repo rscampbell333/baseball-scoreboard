@@ -1,4 +1,4 @@
-import { Flex, Separator, Tabs } from "@chakra-ui/react";
+import { Tabs } from "@chakra-ui/react";
 import type { BoxScore, GameData, LineScore, Play } from "../mlbApi/types";
 import LineupTeam from "./LineupTeam";
 import { useEffect, useState } from "react";
@@ -31,7 +31,7 @@ const Lineup: React.FC<LineupProps> = ({
           setSelectedTab('home')
         }
       } else {
-        setSelectedTab('default')
+        setSelectedTab('away')
       }
     }
   }, [gameData, linescore, isTeamSelectedManually]);
@@ -47,6 +47,7 @@ const Lineup: React.FC<LineupProps> = ({
       unmountOnExit
       value={selectedTab}
       onValueChange={handleValueChange}
+      defaultValue="away"
     >
       <Tabs.List>
         <Tabs.Trigger value="away" width="50%">
@@ -71,23 +72,6 @@ const Lineup: React.FC<LineupProps> = ({
           team={boxscore.teams.home}
           playsByBatter={playsByBatter}
         />
-      </Tabs.Content>
-      <Tabs.Content value="default">
-        <Flex>
-          <LineupTeam
-            expand={false}
-            gameId={gameId}
-            team={boxscore.teams.away}
-            playsByBatter={playsByBatter}
-          />
-          <Separator orientation={'vertical'} />
-          <LineupTeam
-            expand={false}
-            gameId={gameId}
-            team={boxscore.teams.home}
-            playsByBatter={playsByBatter}
-          />
-        </Flex>
       </Tabs.Content>
     </Tabs.Root>
   );

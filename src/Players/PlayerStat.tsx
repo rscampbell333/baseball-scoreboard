@@ -3,7 +3,7 @@ import { Stat } from "@chakra-ui/react";
 
 interface PlayerStatProps {
   label: string;
-  value: string;
+  value: string | number;
   helpText?: string;
 }
 

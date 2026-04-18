@@ -1,10 +1,11 @@
 import { useGameStateContext } from "@/hooks/useGameStateContext";
 import type { Game, Play, Player } from "@/mlbApi/types";
 import { useParams } from "react-router";
-import PlayerCard from "./PlayerCard";
 import { useIntervalAsync } from "@/hooks/useInterval";
 import { getPlayerGameStats } from "@/mlbApi/mlbApi";
 import { useCallback } from "react";
+import BatterCard from "./BatterCard";
+import PitcherCard from "./PitcherCard";
 
 const findPlayer = (playerId: string, game: Game): { player: Player, team: string } => {
   const key = `ID${playerId}`;
@@ -44,9 +45,17 @@ const PlayerRoute = () => {
   }
 
   const { player, team } = findPlayer(playerId, game);
+
+  if (player.position.abbreviation === 'P') {
+    return <PitcherCard
+      team={team}
+      player={player}
+    />
+  }
+
   const plateAppearances = findPlaysForBatter(playerId, game);
 
-  return <PlayerCard
+  return <BatterCard
     team={team} 
     player={player} 
     playerGameStats={playerGameStats}

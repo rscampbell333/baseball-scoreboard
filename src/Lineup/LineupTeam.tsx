@@ -1,11 +1,16 @@
-import type { BattingStats, BoxScoreTeam, Play } from "@/mlbApi/types";
+import type {
+  BattingStats,
+  BoxScoreTeam,
+  PitchingStats,
+  Play,
+  Player,
+} from "@/mlbApi/types";
 import { getBattingOrder } from "@/utils/BoxScoreUtils";
 import {
-  Badge,
-  Link as ChakraLink,
-  Table,
+  Box,
+  Heading,
 } from "@chakra-ui/react";
-import { Link } from "react-router";
+import PlayerTable from "./PlayerTable";
 
 interface LineupTeamProps {
   expand: boolean;
@@ -15,10 +20,8 @@ interface LineupTeamProps {
 }
 
 const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team, gameId }) => {
-  const nameWidth = expand ? '12em' : undefined;
-  const dataWidth = '3em';
-
-  const dataColumns: Array<{ label: string, field: keyof BattingStats}> = [
+  
+  const battingDataColumns: Array<{ label: string, field: keyof BattingStats }> = [
     { label: 'AB', field: 'atBats' },
     { label: 'H',  field: 'hits'},
     { label: 'HR', field: 'homeRuns'},
@@ -28,106 +31,38 @@ const LineupTeam: React.FC<LineupTeamProps> = ({ expand, team, gameId }) => {
     { label: '3B', field: 'triples' },
   ];
 
+  const pitchingDataColumns: Array<{ label: string, field: keyof PitchingStats }> = [
+    { label: 'IP', field: 'inningsPitched' },
+    { label: 'H', field: 'hits' },
+    { label: 'R', field: 'runs' },
+    { label: 'ER', field: 'earnedRuns' },
+    { label: 'K', field: 'strikeOuts' },
+    { label: 'BB', field: 'baseOnBalls' },
+    { label: 'Pit', field: 'pitchesThrown' },
+  ];
+
   const battingOrder = getBattingOrder(team).flatMap(x => x);
+  const pitchers: Array<Player> = team.pitchers.map(id => team.players[`ID${id}`]);
 
   return (
-    <Table.ScrollArea
-      width="100%"
-      overflowY="hidden"
-      overscrollBehavior="none"
-    >
-      <Table.Root 
-        variant="line"
-        css={{
-          "& [data-sticky]": {
-            position: "sticky",
-            zIndex: 1,
-            bg: "bg",
-
-            _after: {
-              content: '""',
-              position: "absolute",
-              pointerEvents: "none",
-              top: "0",
-              bottom: "-1px",
-              width: "32px",
-            },
-          },
-
-          "& [data-sticky=end]": {
-            _after: {
-              insetInlineEnd: "0",
-              translate: "100% 0",
-              shadow: "inset 8px 0px 8px -8px rgba(0, 0, 0, 0.16)",
-            },
-          },
-
-          "& [data-sticky=start]": {
-            _after: {
-              insetInlineStart: "0",
-              translate: "-100% 0",
-              shadow: "inset -8px 0px 8px -8px rgba(0, 0, 0, 0.16)",
-            },
-          },
-        }}
-      >
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader
-              data-sticky={ expand ? "end" : undefined }
-              minWidth={nameWidth}
-              left="0"
-            >
-              Batters
-            </Table.ColumnHeader>
-            { expand && dataColumns.map(col => (
-                <Table.ColumnHeader
-                  key={col.label}
-                  textAlign="center"
-                  minWidth={dataWidth}
-                >
-                  {col.label}
-                </Table.ColumnHeader>
-              ),
-            )}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          { battingOrder.map((player) => {
-            const battingStats = player.stats.batting;
-            const starter = player.battingOrder.endsWith('0');
-
-            return (<Table.Row key={player.person.id}>
-              <Table.Cell
-                data-sticky={ expand ? "end" : undefined }
-                minWidth={nameWidth}
-                left="0"
-              >
-                {!starter && '- '}
-                <ChakraLink asChild>
-                  <Link to={`/games/${gameId}/players/${player.person.id}`}>
-                    {player.person.fullName}
-                  </Link>
-                </ChakraLink>
-                {' '}
-                <Badge>{player.position.abbreviation}</Badge>
-              </Table.Cell>
-              { expand && dataColumns.map(col => (
-                  <Table.Cell
-                    key={`${col.field}-${player.person.id}`}
-                    textAlign={'center'}
-                    minWidth={dataWidth}
-                  >
-                    {battingStats[col.field]}
-                  </Table.Cell>
-                ),
-              )}
-            </Table.Row>
-            );
-          })}
-        </Table.Body>
-      </Table.Root>
-    </Table.ScrollArea>
+    <Box width="100%">
+      <Heading size="sm" pl="0.75rem">Batting</Heading>
+      <PlayerTable
+        expand={expand}
+        players={battingOrder}
+        dataColumns={battingDataColumns}
+        gameId={gameId}
+        isPitchers={false}
+      />
+      <Heading size="sm" pt={2} pl="0.75em">Pitching</Heading>
+      <PlayerTable
+        expand={expand}
+        players={pitchers}
+        dataColumns={pitchingDataColumns}
+        gameId={gameId}
+        isPitchers={true}
+      />
+    </Box>
   );
 };
 

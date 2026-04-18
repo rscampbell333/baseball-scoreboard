@@ -1,29 +1,22 @@
 import { Flex } from "@chakra-ui/react";
 import PlayerStat from "./PlayerStat";
-import type { Player } from "@/mlbApi/types";
 import type React from "react";
 
-interface PlayerStatsProps {
-  player: Player;
+interface Stat {
+  label: string;
+  helpText: string;
+  value: string | number;
 }
 
-const PlayerStats: React.FC<PlayerStatsProps> = ({ player }) => (
+interface PlayerStatsProps {
+  stats: readonly [Stat, Stat, Stat]
+}
+
+const PlayerStats: React.FC<PlayerStatsProps> = ({ stats }) => (
   <Flex>
-    <PlayerStat
-      label="AVG"
-      helpText="Batting Average"
-      value={player.seasonStats.batting.avg}
-    />
-    <PlayerStat
-      label="OBP"
-      helpText="On-base Percentage"
-      value={player.seasonStats.batting.obp}
-    />
-    <PlayerStat
-      label="SLG"
-      helpText="Slugging Average"
-      value={player.seasonStats.batting.slg}
-    />
+    { stats.map(stat => (
+      <PlayerStat key={stat.label} { ...stat } />
+    ))}
   </Flex>
 );
 

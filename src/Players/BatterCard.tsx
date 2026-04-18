@@ -19,7 +19,7 @@ import PlayerStats from "./PlayerStats";
 import PlateAppearances from "./PlateAppearances";
 import { useNavigate } from "react-router";
 
-interface PlayerCardProps {
+interface BatterCardProps {
   team: string;
   player: Player;
   playerGameStats?: PlayerGameStats;
@@ -36,7 +36,7 @@ const getHittingStats = (stats?: PlayerGameStats): HittingGameLogSplit | undefin
     .find(isHittingSplit);
 }
 
-const PlayerCard: React.FC<PlayerCardProps> = ({
+const BatterCard: React.FC<BatterCardProps> = ({
   team,
   player,
   playerGameStats,
@@ -76,7 +76,11 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
             { hittingSummary && (
               <Dialog.Body>
                 <Section title="Season Stats">
-                  <PlayerStats player={player} />
+                  <PlayerStats stats={[
+                    { label: 'AVG', helpText: 'Batting Average', value: player.seasonStats.batting.avg },
+                    { label: 'OBP', helpText: 'On-base Percentage', value: player.seasonStats.batting.obp },
+                    { label: 'SLG', helpText: 'Slugging', value: player.seasonStats.batting.slg },
+                  ]} />
                 </Section>
                 <Separator />
                 <Section title="Game Summary" mt={2}>
@@ -95,4 +99,4 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   );
 };
 
-export default PlayerCard;
+export default BatterCard;
