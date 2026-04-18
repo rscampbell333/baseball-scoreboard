@@ -63,7 +63,11 @@ const PlayerTable: React.FC<BattingPlayerTableProps | PitchingPlayerTableProps> 
   const dataWidth = '3em';
 
   return (
-    <Table.ScrollArea width="100%">
+    <Table.ScrollArea
+      width="100%"
+      overflowY="hidden"
+      overscrollBehavior="none"
+    >
       <Table.Root 
         variant="line"
         css={{
