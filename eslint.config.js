@@ -21,6 +21,7 @@ export default tseslint.config([
     },
     rules: {
       "comma-dangle": ["error", "always-multiline"],
+      "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }]
     }
   },
 ])
